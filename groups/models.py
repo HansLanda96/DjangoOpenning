@@ -25,3 +25,6 @@ class Group(models.Model):
         verbose_name='Group Description',
         db_column='description'
     )
+
+    def __str__(self):
+        return f'Group: {self.name}, Start Date: {self.start_date}'
