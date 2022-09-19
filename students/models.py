@@ -8,7 +8,7 @@ class Student(models.Model):
     first_name = models.CharField(
         max_length=100,
         verbose_name='First Name',
-        db_column='first_name',
+        db_column='first_name_column',
         validators=[MinLengthValidator(2, 'First name must be at least 2 characters long')]
     )
     last_name = models.CharField(
@@ -22,3 +22,6 @@ class Student(models.Model):
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
+
+    class Meta:
+        db_table = 'student_table'

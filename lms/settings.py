@@ -10,6 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+# from os import getenv
+# from dotenv import load_dotenv
+
 from pathlib import Path
 
 from decouple import config
@@ -17,17 +20,21 @@ from decouple import config
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# load_dotenv(BASE_DIR /  '.env')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY')
+SECRET_KEY = config('DJANGO_SECRET_KEY')
+# SECRET_KEY = getenv('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DJANGO_DEBUG', default=False, cast=bool)
+# DEBUG = bool(getenv('DJANGO_DEBUG')) or getenv(DJANGO_DEBUG) in ('True', 'true', '1', 'on', 'ON', 'On', 'TRUE')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = config('DJANGO_ALLOWED_HOSTS', default='', cast=lambda v: [s.strip() for s in v.split(',')])
+# ALLOWED_HOSTS = getenv('DJANGO_ALLOWED_HOSTS', '').split(' ')
 
 
 # Application definition
@@ -41,6 +48,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'django_extensions',
+
+    'students.apps.StudentsConfig',
 ]
 
 MIDDLEWARE = [
@@ -125,3 +134,7 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+if DEBUG:
+    SHELL_PLUS = 'ipython'
+    SHELL_PLUS_PRINT_SQL = True
