@@ -33,7 +33,7 @@ SECRET_KEY = getenv('DJANGO_SECRET_KEY')
 DEBUG = bool(getenv('DJANGO_DEBUG'))
 
 # ALLOWED_HOSTS = config('DJANGO_ALLOWED_HOSTS', default='', cast=lambda v: [s.strip() for s in v.split(',')])
-ALLOWED_HOSTS = getenv('DJANGO_ALLOWED_HOSTS', '').split(' ')
+ALLOWED_HOSTS = getenv('DJANGO_ALLOWED_HOSTS', '').split()
 
 
 # Application definition
