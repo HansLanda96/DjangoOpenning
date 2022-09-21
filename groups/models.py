@@ -3,6 +3,8 @@ from datetime import date
 from django.core.validators import MinLengthValidator
 from django.db import models
 
+from .validators import validate_start_date
+
 
 class Group(models.Model):
     name = models.CharField(
@@ -17,7 +19,8 @@ class Group(models.Model):
         default=date.today,
         max_length=10,
         verbose_name='Group Start Date',
-        db_column='start_date'
+        db_column='start_date',
+        validators=[validate_start_date]
     )
     description = models.TextField(
         default='Group Description',
@@ -28,3 +31,6 @@ class Group(models.Model):
 
     def __str__(self):
         return f'Group: {self.name}, Start Date: {self.start_date}'
+
+    class Meta:
+        db_table = 'group_table'
