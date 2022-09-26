@@ -1,5 +1,6 @@
 from datetime import date
 
+from django.core.exceptions import ValidationError
 from django.core.validators import MinLengthValidator
 from django.db import models
 
@@ -49,5 +50,5 @@ class Student(models.Model):
             try:
                 st.full_clean()
                 st.save()
-            except:
+            except ValidationError:
                 print(f'Error while saving {st}')
