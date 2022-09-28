@@ -16,6 +16,8 @@ class CreateStudentForm(forms.ModelForm):
             'phone_number',
         ]
 
+        widgets = {'birthday': forms.DateInput(attrs={'type': 'date'})}
+
     def clean(self):
         pass
 
