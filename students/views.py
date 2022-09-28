@@ -1,6 +1,7 @@
 from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect
 from django.middleware.csrf import get_token
+from django.shortcuts import render
 # from django.views.decorators.csrf import csrf_exempt
 
 from webargs.djangoparser import use_args
@@ -8,7 +9,6 @@ from webargs.fields import Str
 
 from .forms import CreateStudentForm, EditStudentForm
 from .models import Student
-from .utils import qs2html
 
 
 def index(request):
@@ -30,24 +30,12 @@ def get_students(request, args):
             Q(first_name=args.get('first_name', '')) |
             Q(last_name=args.get('last_name', ''))
         )
+    return render(request, 'students/list.html', {'title': 'List of students', 'students': students})
 
-    html_form = ''' <form method="get">
-          <label for="fname">First name:</label>
-          <input type="text" id="fname" name="first_name" placeholder="John"><br><br>
-          <label for="lname">Last name:</label>
-          <input type="text" id="lname" name="last_name" placeholder="Doe"><br><br>
-          <input type="submit" value="Submit"><br>
-        </form> '''
 
-    # if 'first_name' in args:
-    #     students = students.filter(first_name=args['first_name'])
-    #
-    # if 'last_name' in args:
-    #     students = students.filter(last_name=args['last_name'])
-
-    html = qs2html(students)
-    response = HttpResponse(html_form + html)
-    return response
+def detail_student(request, student_id):
+    student = Student.objects.get(pk=student_id)
+    return render(request, 'students/detail.html', {'title': 'Student detail', 'student': student})
 
 
 # @csrf_exempt allows to send POST request without CSRF token
