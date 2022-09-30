@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LMS - {{ title }}</title>
+</head>
+<body>
+    <h1>List of Teachers</h1><br>
+    <table>
+    {% for teacher in teachers %}
+        <tr style="padding: 0">
+            <td>{{ teacher.pk }}</td>
+            <td style="padding-left: 10px"><span style="font-size: 22px"><a href="detail/{{ teacher.pk }}/">{{ teacher.first_name }}</a></span></td>
+            <td style="padding-left: 20px"><span style="font-size: 22px">{{ teacher.last_name }}</span></td>
+            <td style="padding-left: 30px"><button><a href="edit/{{ teacher.pk }}/">Edit</a></button></td>
+      </tr>
+    {% endfor %}
+    </table>
+</body>
+</html>
+

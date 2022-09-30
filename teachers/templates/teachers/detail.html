@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LMS - {{ title }}</title>
+</head>
+<body>
+    <h1>Details about Teacher || ID: {{ teacher.pk }}</h1><br>
+    <dl>
+        <dt >Name:</dt><dd><a href="/teachers/edit/{{ teacher.pk }}/">{{ teacher.first_name }}</a></dd><br><br>
+        <dt >Last Name: </dt><dd class="about">{{ teacher.last_name }}</dd><br><br>
+        <dt>Email: </dt><dd class="about"><a href=mailto:>{{ teacher.email }}</a></dd><br><br>
+        <dt>Phone: </dt><dd class="about"><a href=tel:>{{ teacher.phone_number }}</a></dd><br><br>
+        <dt>Birthday: </dt><dd class="about">{{ teacher.birthday }}</dd><br><br>
+        <dt>Specialization: </dt><dd class="about">{{ teacher.specialization.title}}</dd><br><br>
+    </dl><br><hr>
+    <button><a href="/teachers/">Back to list</a></button>
+</body>
+</html>
