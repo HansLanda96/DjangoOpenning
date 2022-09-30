@@ -38,11 +38,11 @@ def update_group(request, group_id):
     form = UpdateGroupForm(request.POST or None, instance=group)
     if form.is_valid():
         form.save()
-        return HttpResponseRedirect('/teachers/')
+        return HttpResponseRedirect('/groups/')
 
     token = get_token(request)
     html_form = f'''
-                <h1>Edit teacher || id {group_id}</h1><br><br>
+                <h1>Edit Group || id {group_id}</h1><br><br>
                 <form method="post">
                 <input type="hidden" name="csrfmiddlewaretoken" value="{token}">
                 <table>{form.as_table()}</table><br>
