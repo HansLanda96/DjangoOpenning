@@ -17,11 +17,11 @@
     <br><br>
     <table>
     {% for student in students %}
-        <tr>
+        <tr style="padding: 0">
             <td>{{ student.pk }}</td>
-            <td><a href="detail/{{ student.pk }}/">{{ student.first_name }}</a></td>
-            <td>{{ student.last_name }}</td>
-            <td><a href="edit/{{ student.pk }}/">Edit</a></td>
+            <td style="padding-left: 10px"><span style="font-size: 22px"><a href="detail/{{ student.pk }}/">{{ student.first_name }}</a></span></td>
+            <td style="padding-left: 20px"><span style="font-size: 22px">{{ student.last_name }}</span></td>
+            <td style="padding-left: 30px"><button><a href="edit/{{ student.pk }}/">Edit</a></button></td>
       </tr>
     {% endfor %}
     </table>
