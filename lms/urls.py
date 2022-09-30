@@ -16,10 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from groups.views import detail_group, get_groups, update_group
+
 from students.views import create_student, detail_student, edit_student
 from students.views import get_students
 from students.views import index
 
+from teachers.views import detail_teacher,  get_teachers, update_teacher
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,7 +31,12 @@ urlpatterns = [
     path('students/create/', create_student),
     path('students/detail/<int:student_id>/', detail_student),
     path('students/edit/<int:student_id>/', edit_student),
-
+    path('teachers/', get_teachers),
+    path('teachers/detail/<int:teacher_id>/', detail_teacher),
+    path('teachers/edit/<int:teacher_id>/', update_teacher),
+    path('groups/', get_groups),
+    path('groups/detail/<int:group_id>/', detail_group),
+    path('groups/edit/<int:group_id>/', update_group),
 ]
 
 # https://docs.djangoproject.com:8000/en/4.1/topics/http/urls/
