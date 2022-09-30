@@ -1,5 +1,6 @@
 from datetime import date
 
+from django.core.exceptions import ValidationError
 from django.core.validators import MinLengthValidator
 from django.db import models
 
@@ -34,3 +35,18 @@ class Group(models.Model):
 
     class Meta:
         db_table = 'group_table'
+
+    @classmethod
+    def generate_fake_data(cls, cnt):
+        from faker import Faker
+        f = Faker()
+        for _ in range(cnt):
+            name = f.text(max_nb_chars=20)
+            start_date = f.date_between(start_date='+1d', end_date='+30d')
+            description = f.text(max_nb_chars=120)
+            group = cls(name=name, start_date=start_date, description=description)
+            try:
+                group.full_clean()
+                group.save()
+            except ValidationError:
+                print(f'Error while saving {group}')
