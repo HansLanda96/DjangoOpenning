@@ -1,12 +1,13 @@
 from datetime import date
 
+from core.validators import ValidEmailDomain
+
 from django.core.exceptions import ValidationError
 from django.core.validators import MinLengthValidator
 from django.db import models
 
 from faker import Faker
 
-from .validators import ValidEmailDomain
 
 VALID_DOMAIN_LIST = ('@gmail.com', '@yahoo.com', '@test.com')
 

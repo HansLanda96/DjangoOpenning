@@ -1,11 +1,12 @@
 from datetime import date
 
+from core.validators import ValidEmailDomain
+
 from django.core.exceptions import ValidationError
 from django.core.validators import MinLengthValidator
 from django.db import models
 
 from students.models import VALID_DOMAIN_LIST
-from students.validators import ValidEmailDomain
 
 
 class Teacher(models.Model):

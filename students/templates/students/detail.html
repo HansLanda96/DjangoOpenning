@@ -1,19 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>LMS - {{ title }}</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{%  block title %}
+Detail of {{ student.first_name }}//{{ student.pk }}
+{% endblock %}
+
+{% block content %}
     <h1>Details about Student || ID: {{ student.pk }}</h1><br>
     <dl>
-        <dt >Name:</dt><dd><a href="/students/edit/{{ student.pk }}/">{{ student.first_name }}</a></dd><br><br>
+        <dt >Name:</dt><dd><a href="{% url 'students:update' student.pk %}">{{ student.first_name }}</a></dd><br><br>
         <dt >Last Name: </dt><dd>{{ student.last_name }}</dd><br><br>
-{#        <dt>Email: </dt><dd><a href=mailto:>{{ student.email }}</a></dd><br><br>#}
+        <dt>Email: </dt><dd><a href=mailto:>{{ student.email }}</a></dd><br><br>
         <dt>Phone: </dt><dd><a href=tel:>{{ student.phone_number }}</a></dd><br><br>
         <dt>Birthday: </dt><dd>{{ student.birthday }}</dd><br><br>
 {#        <dt>Specialization: </dt><dd>{{ student.specialization.title}}</dd><br><br>#}
     </dl><br><hr>
-    <button><a href="/teachers/">Back to list</a></button>
-</body>
-</html>
+    <button><a href="{% url 'students:list' %}">Back to list</a></button>
+{% endblock %}

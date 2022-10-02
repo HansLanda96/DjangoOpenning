@@ -1,11 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>LMS - {{ title }}</title>
-</head>
-<body>
-    <form method="get">
+{% extends "base.html" %}
+    {% block title %}{{ title }}{% endblock %}
+{% block content %}
+       <form method="get">
       <label for="fname">First name:</label>
       <input type="text" id="fname" name="first_name" placeholder="John"><br><br>
       <label for="lname">Last name:</label>
@@ -13,17 +9,17 @@
       <input type="submit" value="Submit"><br>
     </form>
     <br>
-    <a href="create/">Create new student</a>
+{#    <a href="{% url 'students:create' %}">Create new student</a>#}
     <br><br>
     <table>
     {% for student in students %}
         <tr style="padding: 0">
             <td>{{ student.pk }}</td>
-            <td style="padding-left: 10px"><span style="font-size: 22px"><a href="detail/{{ student.pk }}/">{{ student.first_name }}</a></span></td>
+            <td style="padding-left: 10px"><span style="font-size: 22px"><a href="{% url 'students:detail' student.pk %}">{{ student.first_name }}</a></span></td>
             <td style="padding-left: 20px"><span style="font-size: 22px">{{ student.last_name }}</span></td>
-            <td style="padding-left: 30px"><button><a href="edit/{{ student.pk }}/">Edit</a></button></td>
-      </tr>
+            <td style="padding-left: 30px"><button><a href="{% url 'students:update' student.pk %}">Edit</a></button></td>
+            <td style="padding-left: 30px"><button><a href="{% url 'students:delete' student.pk %}">Delete</a></button></td>
+        </tr>
     {% endfor %}
     </table>
-</body>
-</html>
+{% endblock %}

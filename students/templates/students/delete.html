@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Delete student
+{% endblock %}
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        <p>Are you sure you want to delete "{{ student.last_name }} {{ student.first_name }}"?</p>
+        <input type="submit" value="Agree">
+        <a href="{% url 'list' %}">Cancel</a><br>
+    </form>
+{% endblock %}
