@@ -9,6 +9,6 @@ Delete student
         {% csrf_token %}
         <p>Are you sure you want to delete "{{ student.last_name }} {{ student.first_name }}"?</p>
         <input type="submit" value="Agree">
-        <a href="{% url 'list' %}">Cancel</a><br>
+        <a href="{% url 'students:list' %}">Cancel</a><br>
     </form>
 {% endblock %}
