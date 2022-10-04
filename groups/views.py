@@ -22,7 +22,7 @@ def get_groups(request, args):
     if len(args) != 0 and args.get('name') or args.get('start_date'):
         groups = groups.filter(
             Q(name=args.get('name', '')) |
-            Q(start_date=args.get('start_date', 'start_date'))
+            Q(start_date=args.get('start_date', ''))
         )
     return render(request, 'groups/list.html', {'groups': groups})
 
