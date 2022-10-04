@@ -7,7 +7,7 @@ from .utils import validate_phone_number
 class CreateStudentForm(forms.ModelForm):
     class Meta:
         model = Student
-        fields = [      # __all__ for all fields
+        fields = [  # __all__ for all fields
             'first_name',
             'last_name',
             'birthday',
