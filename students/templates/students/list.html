@@ -2,6 +2,7 @@
     {% block title %}{{ title }}{% endblock %}
 {% block content %}
        <form method="get">
+           <h3>Search field</h3>
       <label for="fname">First name:</label>
       <input type="text" id="fname" name="first_name" placeholder="John"><br><br>
       <label for="lname">Last name:</label>
@@ -12,6 +13,7 @@
 {#    <a href="{% url 'students:create' %}">Create new student</a>#}
     <br><br>
     <table>
+    <h1>List of Students</h1>
     {% for student in students %}
         <tr style="padding: 0">
             <td>{{ student.pk }}</td>
