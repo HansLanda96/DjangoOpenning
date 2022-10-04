@@ -1,13 +1,12 @@
 from django.db.models import Q
-from django.http import HttpResponse, HttpResponseRedirect
-from django.middleware.csrf import get_token
-from django.shortcuts import render
-
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404, render
+from django.urls import reverse
 
 from webargs.djangoparser import use_args
 from webargs.fields import Str
 
-from .forms import UpdateGroupForm
+from .forms import CreateGroupForm, UpdateGroupForm
 from .models import Group
 
 
@@ -23,29 +22,36 @@ def get_groups(request, args):
     if len(args) != 0 and args.get('name') or args.get('start_date'):
         groups = groups.filter(
             Q(name=args.get('name', '')) |
-            Q(start_date=args.get('start_date', ''))
+            Q(start_date=args.get('start_date', 'start_date'))
         )
-    return render(request, 'groups/list.html', {'title': 'List of groups', 'groups': groups})
+    return render(request, 'groups/list.html', {'groups': groups})
 
 
 def detail_group(request, group_id):
-    group = Group.objects.get(pk=group_id)
-    return render(request, 'groups/detail.html', {'title': 'Group detail', 'group': group})
+    group = get_object_or_404(Group, pk=group_id)
+    return render(request, 'groups/detail.html', {'group': group})
+
+
+def create_group(request):
+    form = CreateGroupForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        return HttpResponseRedirect(reverse('groups:list'))
+    return render(request, 'groups/create.html', {'form': form})
 
 
 def update_group(request, group_id):
-    group = Group.objects.get(pk=group_id)
-    form = UpdateGroupForm(request.POST or None, instance=group)
+    instance = get_object_or_404(Group, pk=group_id)
+    form = UpdateGroupForm(request.POST or None, instance=instance)
     if form.is_valid():
         form.save()
-        return HttpResponseRedirect('/groups/')
+        return HttpResponseRedirect(reverse('groups:list'))
+    return render(request, 'groups/update.html', {'form': form})
 
-    token = get_token(request)
-    html_form = f'''
-                <h1>Edit Group || id {group_id}</h1><br><br>
-                <form method="post">
-                <input type="hidden" name="csrfmiddlewaretoken" value="{token}">
-                <table>{form.as_table()}</table><br>
-                <input type="submit" value="Submit"><br>
-                </form>'''
-    return HttpResponse(html_form)
+
+def delete_group(request, group_id):
+    group = get_object_or_404(Group, pk=group_id)
+    if request.method == 'POST':
+        group.delete()
+        return HttpResponseRedirect(reverse('groups:list'))
+    return render(request, 'groups/delete.html', {'group': group})
