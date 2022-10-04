@@ -19,17 +19,16 @@ from .models import Student
 )
 def get_students(request, args):
     students = Student.objects.all()
-
     if len(args) != 0 and args.get('first_name') or args.get('last_name'):
         students = students.filter(
-            Q(first_name=args.get('first_name', '')) |
-            Q(last_name=args.get('last_name', ''))
+            Q(first_name=args.get('first_name', '').title()) |
+            Q(last_name=args.get('last_name', '').title())
         )
     return render(request, 'students/list.html', {'title': 'List of students', 'students': students})
 
 
 def detail_student(request, student_id):
-    student = Student.objects.get(pk=student_id)
+    student = get_object_or_404(Student, pk=student_id)
     return render(request, 'students/detail.html', {'title': 'Student detail', 'student': student})
 
 
