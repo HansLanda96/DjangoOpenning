@@ -1,20 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>LMS - {{ title }}</title>
-</head>
-<body>
-    <h1>List of Groups</h1><br>
+{% extends 'base.html' %}
+
+{% block title %}
+List of Groups
+{% endblock %}
+
+{% block content %}
+    <form method="get">
+        <h3>Search field</h3>
+        <label for="name">Name of Group:</label>
+        <input type="text" id="name" name="name" placeholder="PythonPro 13.10.2022"><br><br>
+        <label for="start">Start date:</label>
+        <input type="date" id="start" name="start_date" style="margin-left: 40px;" value="2022-10-01">
+        <br><br>
+        <input type="submit" value="Submit"><br>
+    </form>
+    <br>
+{#    <a href="{% url 'students:create' %}">Create new student</a>#}
+    <br><br>
     <table>
+    <h1>List of groups</h1>
     {% for group in groups %}
         <tr style="padding: 0">
             <td>{{ group.pk }}</td>
-            <td style="padding-left: 10px"><span style="font-size: 22px"><a href="detail/{{ group.pk }}/">{{ group.name }}</a></span></td>
+            <td style="padding-left: 10px"><span style="font-size: 22px"><a href="{% url 'groups:detail' group.pk %}">{{ group.name }}</a></span></td>
             <td style="padding-left: 20px"><span style="font-size: 22px">{{ group.start_date }}</span></td>
-            <td style="padding-left: 30px"><button><a href="edit/{{ group.pk }}/">Edit</a></button></td>
+            <td style="padding-left: 30px"><button><a href="{% url 'groups:update' group.pk %}">Edit</a></button></td>
+            <td style="padding-left: 30px"><button><a href="{% url 'groups:delete' group.pk %}">Delete</a></button></td>
       </tr>
     {% endfor %}
     </table>
-</body>
-</html>
+{% endblock %}
