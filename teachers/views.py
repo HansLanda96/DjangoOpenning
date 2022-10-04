@@ -1,9 +1,9 @@
 from django.db.models import Q
-from django.http import HttpResponse, HttpResponseRedirect
-from django.middleware.csrf import get_token
-from django.shortcuts import render
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404, render
+from django.urls import reverse
 
-from teachers.forms import EditTeacherForm
+from teachers.forms import CreateTeacherForm, EditTeacherForm
 from teachers.models import Teacher
 
 from webargs.djangoparser import use_args
@@ -23,31 +23,39 @@ def get_teachers(request, args):
 
     if len(args) != 0 and args.get('first_name') or args.get('last_name') or args.get('specialization'):
         teachers = teachers.filter(
-            Q(first_name=args.get('first_name', '')) |
-            Q(last_name=args.get('last_name', '')) |
-            Q(specialization=args.get('specialization', ''))
+            Q(first_name=args.get('first_name', '').title()) |
+            Q(last_name=args.get('last_name', '').title()) |
+            Q(specialization=args.get('specialization', '').lower())
         )
-    return render(request, 'teachers/list.html', {'title': 'List of teachers', 'teachers': teachers})
+    return render(request, 'teachers/list.html', {'teachers': teachers})
+
+
+def create_teacher(request):
+    form = CreateTeacherForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        return HttpResponseRedirect(reverse('teachers:list'))
+    return render(request, 'teachers/create.html', {'form': form})
 
 
 def detail_teacher(request, teacher_id):
-    teacher = Teacher.objects.get(pk=teacher_id)
-    return render(request, 'teachers/detail.html', {'title': 'Teacher detail', 'teacher': teacher})
+    teacher = get_object_or_404(Teacher, pk=teacher_id)
+    return render(request, 'teachers/detail.html', {'teacher': teacher})
 
 
 def update_teacher(request, teacher_id):
-    teacher = Teacher.objects.get(pk=teacher_id)
-    form = EditTeacherForm(request.POST or None, instance=teacher)
+    instance = get_object_or_404(Teacher, pk=teacher_id)
+    form = EditTeacherForm(request.POST or None, instance=instance)
     if form.is_valid():
         form.save()
-        return HttpResponseRedirect('/teachers/')
+        return HttpResponseRedirect(reverse('teachers:list'))
 
-    token = get_token(request)
-    html_form = f'''
-            <h1>Edit teacher || id {teacher_id}</h1><br><br>
-            <form method="post">
-            <input type="hidden" name="csrfmiddlewaretoken" value="{token}">
-            <table>{form.as_table()}</table><br>
-            <input type="submit" value="Submit"><br>
-            </form>'''
-    return HttpResponse(html_form)
+    return render(request, 'teachers/update.html', {'form': form})
+
+
+def delete_teacher(request, teacher_id):
+    teacher = get_object_or_404(Teacher, pk=teacher_id)
+    if request.method == 'POST':
+        teacher.delete()
+        return HttpResponseRedirect(reverse('teachers:list'))
+    return render(request, 'teachers/delete.html', {'teacher': teacher})
