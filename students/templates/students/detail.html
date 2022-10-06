@@ -1,15 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>LMS - {{ title }}</title>
-</head>
-<body>
-    <p><a href="/students/edit/{{ student.pk }}/">{{ student.first_name }}</a></p>
-    <p>{{ student.last_name }}</p>
-    <p>{{ student.email }}</p>
-    <p>{{ student.phone }}</p>
-    <p>{{ student.birthday }}</p>
-    <a href="/students/">Back to list</a>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block title %}Detail of {{ student.first_name }}{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col">
+            <div class="card" style="width: 18rem;">
+                <div class="card-header">
+                    <a href="{% url 'students:update' student.pk %}">{{ student.first_name }} {{ student.last_name }}</a>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><a href="mailto:">{{ student.email }}</a></li>
+                    <li class="list-group-item"><a href="tel:">{{ student.phone_number }}</a></li>
+                    <li class="list-group-item">
+                        {{ student.birthday }} {% if student.get_age %}
+                        <span class="text-muted">({{ student.get_age }} year)</span>
+                    {% endif %}
+                    </li>
+                </ul>
+                <a class="btn btn-outline-primary mt-3" href="{% url 'students:list' %}">Back to list</a>
+            </div>
+        </div>
+        <div class="col-4"></div>
+    </div>
+{% endblock %}

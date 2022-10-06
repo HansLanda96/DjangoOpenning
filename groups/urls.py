@@ -1,4 +1,4 @@
-"""lms URL Configuration
+"""groups URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/4.1/topics/http/urls/
@@ -13,18 +13,17 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from core.views import index
+from django.urls import path
 
-from django.contrib import admin
-from django.urls import include, path
+from .views import create_group, delete_group, detail_group, get_groups, update_group
 
+
+app_name = 'groups'
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', index, name='home'),
-    path('students/', include('students.urls')),
-    path('teachers/', include('teachers.urls')),
-    path('groups/', include('groups.urls')),
+    path('', get_groups, name='list'),
+    path('create/', create_group, name='create'),
+    path('detail/<int:group_id>/', detail_group, name='detail'),
+    path('edit/<int:group_id>/', update_group, name='update'),
+    path('delete/<int:group_id>/', delete_group, name='delete'),
 ]
-
-# https://docs.djangoproject.com:8000/en/4.1/topics/http/urls/

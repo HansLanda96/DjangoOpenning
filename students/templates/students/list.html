@@ -1,29 +1,68 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>LMS - {{ title }}</title>
-</head>
-<body>
-    <form method="get">
-      <label for="fname">First name:</label>
-      <input type="text" id="fname" name="first_name" placeholder="John"><br><br>
-      <label for="lname">Last name:</label>
-      <input type="text" id="lname" name="last_name" placeholder="Doe"><br><br>
-      <input type="submit" value="Submit"><br>
-    </form>
-    <br>
-    <a href="create/">Create new student</a>
-    <br><br>
-    <table>
-    {% for student in students %}
-        <tr>
-            <td>{{ student.pk }}</td>
-            <td><a href="detail/{{ student.pk }}/">{{ student.first_name }}</a></td>
-            <td>{{ student.last_name }}</td>
-            <td><a href="edit/{{ student.pk }}/">Edit</a></td>
-      </tr>
-    {% endfor %}
-    </table>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{#{% block custom_css %}#}
+{#    #list {#}
+{#        font-family: arial, sans-serif;#}
+{#        border-collapse: collapse;#}
+{#        width: 100%;#}
+{#    }#}
+{##}
+{#    #list td {#}
+{#        border: 1px solid #dddd;#}
+{#        text-align: left;#}
+{#        padding: 8px;#}
+{#    }#}
+{##}
+{#    #list tr:nth-child(even) {#}
+{#        background-color: #2222;#}
+{#    }#}
+{#{% endblock %}#}
+
+{% block content %}
+    <div class="row mb-3">
+        <div class="col">
+            <form method="get">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="floatingFirstName" placeholder="A" name="first_name">
+                    <label for="floatingFirstName">First name</label>
+                </div>
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="floatingLastName" placeholder="B" name="last_name">
+                    <label for="floatingLastName">Last name</label>
+                </div>
+                <input class="btn btn-outline-primary mt-3" type="submit" value="Search">
+            </form>
+        </div>
+        <div class="col-6"></div>
+    </div>
+    <div class="row">
+        <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <th>N</th>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>Age</th>
+                <th><i class="bi bi-pencil-fill"></i></th>
+                <th><i class="bi bi-trash3-fill"></i></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for student in students %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td><a href="{% url 'students:detail' student.pk %}">{{ student.first_name }}</a></td>
+                    <td>{{ student.last_name }}</td>
+                    <td>{% if student.get_age %}{{ student.get_age }}{% endif %}</td>
+                    <td><a class="btn btn-outline-primary btn-sm" href="{% url 'students:update' student.pk %}">Edit</a>
+                    </td>
+                    <td><a class="btn btn-outline-danger btn-sm"
+                           href="{% url 'students:delete' student.pk %}">Delete</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

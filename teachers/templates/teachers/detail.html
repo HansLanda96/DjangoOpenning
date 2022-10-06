@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Details about teacher {{ teacher.pk }}
+{% endblock %}
+
+{% block content %}
+    <h1>Details about Teacher || ID: {{ teacher.pk }}</h1><br>
+    <dl>
+        <dt >Name:</dt><dd><a href="{% url 'teachers:update' teacher.pk %}">{{ teacher.first_name }}</a></dd><br><br>
+        <dt >Last Name: </dt><dd>{{ teacher.last_name }}</dd><br><br>
+        <dt>Email: </dt><dd><a href=mailto:>{{ teacher.email }}</a></dd><br><br>
+        <dt>Phone: </dt><dd><a href=tel:>{{ teacher.phone_number }}</a></dd><br><br>
+        <dt>Birthday: </dt><dd>{{ teacher.birthday }}</dd><br><br>
+        <dt>Specialization: </dt><dd>{{ teacher.specialization.title}}</dd><br><br>
+    </dl><br><hr>
+    <button><a href="{% url 'teachers:list' %}">Back to list</a></button>
+{% endblock %}
