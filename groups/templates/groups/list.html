@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-List of Groups
+    List of Groups
 {% endblock %}
 
 {% block content %}
@@ -15,18 +15,23 @@ List of Groups
         <input type="submit" value="Submit"><br>
     </form>
     <br>
-{#    <a href="{% url 'students:create' %}">Create new student</a>#}
+    {#    <a href="{% url 'students:create' %}">Create new student</a>#}
     <br><br>
     <table>
-    <h1>List of groups</h1>
-    {% for group in groups %}
-        <tr style="padding: 0">
-            <td>{{ group.pk }}</td>
-            <td style="padding-left: 10px"><span style="font-size: 22px"><a href="{% url 'groups:detail' group.pk %}">{{ group.name }}</a></span></td>
-            <td style="padding-left: 20px"><span style="font-size: 22px">{{ group.start_date }}</span></td>
-            <td style="padding-left: 30px"><button><a href="{% url 'groups:update' group.pk %}">Edit</a></button></td>
-            <td style="padding-left: 30px"><button><a href="{% url 'groups:delete' group.pk %}">Delete</a></button></td>
-      </tr>
-    {% endfor %}
+        <h1>List of groups</h1>
+        {% for group in groups %}
+            <tr style="padding: 0">
+                <td>{{ group.pk }}</td>
+                <td style="padding-left: 10px"><span style="font-size: 22px"><a
+                        href="{% url 'groups:detail' group.pk %}">{{ group.name }}</a></span></td>
+                <td style="padding-left: 20px"><span style="font-size: 22px">{{ group.start_date }}</span></td>
+                <td style="padding-left: 30px">
+                    <button><a href="{% url 'groups:update' group.pk %}">Edit</a></button>
+                </td>
+                <td style="padding-left: 30px">
+                    <button><a href="{% url 'groups:delete' group.pk %}">Delete</a></button>
+                </td>
+            </tr>
+        {% endfor %}
     </table>
 {% endblock %}
