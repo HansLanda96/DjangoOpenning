@@ -1,40 +1,54 @@
 {% extends 'base.html' %}
 
-{% block title %}
-    List of Groups
-{% endblock %}
+{% block title %}Teachers list{% endblock %}
 
 {% block content %}
-    <form method="get">
-        <h3>Search field</h3>
-        <label for="fname">First name:</label>
-        <input type="text" id="fname" name="first_name" placeholder="John"><br><br>
-        <label for="lname">Last name:</label>
-        <input type="text" id="lname" name="last_name" placeholder="Doe"><br><br>
-        <label for="spec">Specialization:</label>
-        <input type="text" id="spec" name="specialization" placeholder="Python"><br><br>
-        <input type="submit" value="Submit"><br>
-    </form>
-    <br>
-
-    <br><br>
-    <h1>List of Teachers</h1><br>
-    <table>
-        {% for teacher in teachers %}
-            <tr style="padding: 0">
-                <td>{{ teacher.pk }}</td>
-                <td style="padding-left: 10px"><span style="font-size: 22px"><a
-                        href="{% url 'teachers:detail' teacher.pk %}">{{ teacher.first_name }}</a></span></td>
-                <td style="padding-left: 20px"><span style="font-size: 22px">{{ teacher.last_name }}</span></td>
-                <td style="padding-left: 20px"><span style="font-size: 22px">{{ teacher.specialization.title }}</span>
-                </td>
-                <td style="padding-left: 30px">
-                    <button><a href="{% url 'teachers:update' teacher.pk %}">Edit</a></button>
-                </td>
-                <td style="padding-left: 30px">
-                    <button><a href="{% url 'teachers:delete' teacher.pk %}">Delete</a></button>
-                </td>
+    <div class="row mb-3">
+        <div class="col">
+            <form method="get">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="floatingFirstName" placeholder="A" name="first_name">
+                    <label for="floatingFirstName">First name</label>
+                </div>
+                 <div class="form-floating">
+                    <input type="text" class="form-control" id="floatingLastName" placeholder="B" name="last_name">
+                    <label for="floatingLastName">Last name</label>
+                </div>
+                <input class="btn btn-outline-primary mt-3" type="submit" value="Search">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="floatingSpecialization" placeholder="C" name="specialization">
+                    <label for="floatingSpecialization">Specialization</label>
+                </div>
+            </form>
+        </div>
+        <div class="col-6"></div>
+    </div>
+    <div class="row">
+        <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>N</th>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>Age</th>
+                <th>Specialization</th>
+                <th><i class="bi bi-pencil-fill"></i></th>
+                <th><i class="bi bi-trash-fill"></i></th>
             </tr>
-        {% endfor %}
-    </table>
+        </thead>
+            <tbody>
+                {% for teacher in teachers %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td><a href="{% url 'teachers:detail' teacher.pk %}">{{ teacher.first_name }}</a></td>
+                        <td>{{ teacher.last_name }}</td>
+                        <td>{% if teacher.get_age %}{{ teacher.get_age }}{% endif %}</td>
+                        <td>{{ teacher.specialization.title }}</td>
+                        <td><a class="btn btn-outline-primary btn-sm" href="{% url 'teachers:update' teacher.pk %}">Edit</a></td>
+                        <td><a class="btn btn-outline-danger btn-sm" href="{% url 'teachers:delete' teacher.pk %}">Delete</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

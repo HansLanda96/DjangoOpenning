@@ -1,5 +1,7 @@
 from datetime import date
 
+from dateutil.relativedelta import relativedelta
+
 from core.validators import ValidEmailDomain
 
 from django.core.exceptions import ValidationError
@@ -79,6 +81,9 @@ class Teacher(models.Model):
 
     def __str__(self):
         return f'{self.first_name} {self.last_name} {self.specialization}'
+
+    def get_age(self):
+        return relativedelta(date.today(), self.birthday).years
 
     @classmethod
     def generate_fake_teachers(cls, cnt):
