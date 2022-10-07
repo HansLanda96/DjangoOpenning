@@ -1,8 +1,8 @@
 from datetime import date
 
-from dateutil.relativedelta import relativedelta
-
 from core.validators import ValidEmailDomain
+
+from dateutil.relativedelta import relativedelta
 
 from django.core.exceptions import ValidationError
 from django.core.validators import MinLengthValidator
