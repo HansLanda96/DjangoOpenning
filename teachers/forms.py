@@ -1,8 +1,19 @@
 from django import forms
 
+from django_filters import FilterSet
+
 from students.utils import validate_phone_number
 
 from .models import Teacher
+
+
+class TeacherFilterForm(FilterSet):
+    class Meta:
+        model = Teacher
+        fields = {
+            'first_name': ['exact', 'icontains'],
+            'last_name': ['exact', 'icontains'],
+        }
 
 
 class CreateTeacherForm(forms.ModelForm):
