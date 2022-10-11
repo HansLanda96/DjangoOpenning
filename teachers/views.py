@@ -2,7 +2,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 
-from .forms import CreateTeacherForm, EditTeacherForm, TeacherFilterForm
+from .forms import CreateTeacherForm, TeacherFilterForm, EditTeacherForm
 from .models import Teacher
 
 

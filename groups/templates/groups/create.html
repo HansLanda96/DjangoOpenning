@@ -2,7 +2,9 @@
 
 {% load crispy_forms_filters %}
 
-{% block title %}Create new group{% endblock %}
+{% block title %}
+    Create a new group
+{% endblock %}
 
 {% block content %}
     <div class="row">
@@ -11,8 +13,8 @@
             <form method="post">
                 {% csrf_token %}
                 {{ form|crispy }}
-                <input class="btn btn-outline-success bth-sm mt-2" type="submit" value="Create">
-                <a class="btn btn-outline-danger bth-sm mt-2" href="{% url 'groups:list' %}">Cancel</a>
+                <input class="btn btn-outline-primary" type="submit" value="Create">
+                <a class="btn btn-outline-success" href="{% url 'students:list' %}">Cancel</a>
             </form>
         </div>
         <div class="col-3"></div>

@@ -10,7 +10,7 @@
         <div class="col">
             <form method="post">
                 {% csrf_token %}
-                <p>Do you really want to remove "{{ student.last_name }} {{ student.first_name }}"?</p>
+                <p>Are you sure you want to delete "{{ student.last_name }} {{ student.first_name }}" student?</p>
                 <input class="btn btn-outline-danger" type="submit" value="Agree">
                 <a class="btn btn-outline-success" href="{% url 'students:list' %}">Cancel</a>
             </form>
