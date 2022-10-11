@@ -14,4 +14,3 @@ urlpatterns = [
     path('update/<int:group_id>/', update_group, name='update'),  # Update
     path('delete/<int:group_id>/', delete_group, name='delete'),  # Delete
 ]
-

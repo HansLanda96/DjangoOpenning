@@ -1,11 +1,14 @@
 from datetime import date
 
+
+from core.validators import ValidEmailDomain
+
 from dateutil.relativedelta import relativedelta
+
 from django.core.exceptions import ValidationError
 from django.core.validators import MinLengthValidator
 from django.db import models
 
-from core.validators import ValidEmailDomain
 from groups.models import Group
 
 VALID_DOMAIN_LIST = ('@gmail.com', '@yahoo.com', '@test.com')
@@ -14,7 +17,7 @@ VALID_DOMAIN_LIST = ('@gmail.com', '@yahoo.com', '@test.com')
 class Student(models.Model):
     first_name = models.CharField(
         max_length=100,
-        validators=[MinLengthValidator(2, f'"First name" field value less than two symbols')]
+        validators=[MinLengthValidator(2, '"First name" field value less than two symbols')]
     )
     last_name = models.CharField(
         max_length=100,

@@ -1,9 +1,9 @@
-from .utils import validate_phone_number
-
 from django import forms
+
 from django_filters import FilterSet
 
 from .models import Student
+from .utils import validate_phone_number
 
 
 class CreateStudentForm(forms.ModelForm):
