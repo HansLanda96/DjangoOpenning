@@ -1,30 +1,19 @@
-from django.db.models import Q
+from django.db.models import Q # noqa
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 
-from webargs.djangoparser import use_args
-from webargs.fields import Str
+from webargs.djangoparser import use_args # noqa
+from webargs.fields import Str # noqa
 
-from .forms import CreateGroupForm, UpdateGroupForm
+from .forms import CreateGroupForm, GroupFilterForm, UpdateGroupForm
 from .models import Group
 
 
-@use_args(
-    {
-        'name': Str(required=False),
-        'start_date': Str(required=False),
-    },
-    location='query'
-)
-def get_groups(request, args):
+def get_groups(request):
     groups = Group.objects.all()
-    if len(args) != 0 and args.get('name') or args.get('start_date'):
-        groups = groups.filter(
-            Q(name=args.get('name', '')) |
-            Q(start_date=args.get('start_date', ''))
-        )
-    return render(request, 'groups/list.html', {'groups': groups})
+    filter_form = GroupFilterForm(request.GET, queryset=groups)
+    return render(request, 'groups/list.html', {'filter_form': filter_form})
 
 
 def detail_group(request, group_id):
