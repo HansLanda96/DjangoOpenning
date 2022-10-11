@@ -1,31 +1,28 @@
 {% extends 'base.html' %}
 
-{% block title %}
-    Details about teacher {{ teacher.pk }}
-{% endblock %}
+{% block title %}Detail of {{ teacher.first_name }}{% endblock %}
 
 {% block content %}
-    <h1>Details about Teacher || ID: {{ teacher.pk }}</h1><br>
-    <dl>
-        <dt>Name:</dt>
-        <dd><a href="{% url 'teachers:update' teacher.pk %}">{{ teacher.first_name }}</a></dd>
-        <br><br>
-        <dt>Last Name:</dt>
-        <dd>{{ teacher.last_name }}</dd>
-        <br><br>
-        <dt>Email:</dt>
-        <dd><a href=mailto:>{{ teacher.email }}</a></dd>
-        <br><br>
-        <dt>Phone:</dt>
-        <dd><a href=tel:>{{ teacher.phone_number }}</a></dd>
-        <br><br>
-        <dt>Birthday:</dt>
-        <dd>{{ teacher.birthday }}</dd>
-        <br><br>
-        <dt>Specialization:</dt>
-        <dd>{{ teacher.specialization.title }}</dd>
-        <br><br>
-    </dl><br>
-    <hr>
-    <button><a href="{% url 'teachers:list' %}">Back to list</a></button>
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col">
+            <div class="card" style="width: 18rem;">
+                <div class="card-header">
+                    <a href="{% url 'teachers:update' teacher.pk %}">{{ teacher.first_name }} {{ teacher.last_name }}</a>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        {{ teacher.birthday }}{% if teacher.get_age %}
+                            <span class="text-muted">({{ teacher.get_age }} years)</span>
+                        {% endif %}
+                    </li>
+                    <li class="list-group-item"><a href=mailto:>{{ teacher.email }}</a></li>
+                    <li class="list-group-item"><a href=tel:>{{ teacher.phone_number }}</a></li>
+                    <li class="list-group-item">{{ teacher.specialization.title }}</li>
+                </ul>
+                <a class="btn btn-outline-primary mt-3" href="{% url 'teachers:list' %}">Back to list</a>
+            </div>
+        </div>
+    <div class="col-4"></div>
+    </div>
 {% endblock %}

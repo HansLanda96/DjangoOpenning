@@ -1,5 +1,7 @@
 from django import forms
 
+from django_filters import FilterSet
+
 from .models import Student
 from .utils import validate_phone_number
 
@@ -36,3 +38,12 @@ class CreateStudentForm(forms.ModelForm):
 class EditStudentForm(CreateStudentForm):
     class Meta(CreateStudentForm.Meta):
         exclude = ['birthday']
+
+
+class StudentFilterForm(FilterSet):
+    class Meta:
+        model = Student
+        fields = {
+            'first_name': ['exact', 'icontains'],
+            'last_name': ['exact', 'startswith'],
+        }
