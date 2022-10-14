@@ -2,8 +2,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 
-from .forms import CreateStudentForm, StudentFilterForm
-from .forms import UpdateStudentForm
+from .forms import CreateStudentForm, StudentFilterForm, UpdateStudentForm
 from .models import Student
 
 
