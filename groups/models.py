@@ -16,7 +16,7 @@ class Group(models.Model):
     )
     create_datetime = models.DateTimeField(auto_now_add=True)
     update_datetime = models.DateTimeField(auto_now=True)
-    course = models.OneToOneField(
+    course = models.OneToOneField(  # add course model to the group
         'courses.Course',
         on_delete=models.SET_NULL,
         null=True,
