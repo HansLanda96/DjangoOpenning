@@ -27,7 +27,7 @@ def detail_group(request, group_id):
 def get_groups(request):
     groups = Group.objects.all()
     filter_form = GroupFilterForm(request.GET, queryset=groups)
-    return render(request, 'groups/list.html', {'courses': groups, 'filter_form': filter_form})
+    return render(request, 'groups/list.html', {'groups': groups, 'filter_form': filter_form})
 
 
 def update_group(request, group_id):
