@@ -1,4 +1,3 @@
-
 import datetime
 
 from django.db import models
@@ -17,6 +16,13 @@ class Group(models.Model):
     )
     create_datetime = models.DateTimeField(auto_now_add=True)
     update_datetime = models.DateTimeField(auto_now=True)
+    course = models.OneToOneField(
+        'courses.Course',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='course_group'
+    )
 
     class Meta:
         db_table = 'lms_groups_table'
