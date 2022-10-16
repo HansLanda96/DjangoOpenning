@@ -54,7 +54,8 @@ INSTALLED_APPS = [
     'students.apps.StudentsConfig',
     'groups.apps.GroupsConfig',
     'teachers.apps.TeachersConfig',
-    'courses.apps.CoursesConfig',   # add courses app
+    'courses.apps.CoursesConfig',
+    'core.apps.CoreConfig',
 ]
 
 MIDDLEWARE = [
@@ -65,7 +66,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',  # debug toolbar
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'lms.urls'
