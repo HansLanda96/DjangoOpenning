@@ -11,8 +11,8 @@
                     <a href="{% url 'students:update' student.pk %}">{{ student.first_name }} {{ student.last_name }}</a>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item"><a href="mailto:">{{ student.email }}</a></li>
-                    <li class="list-group-item"><a href="tel:">{{ student.phone_number }}</a></li>
+                    <li class="list-group-item">{{ student.email }}</li>
+                    <li class="list-group-item">{% if student.phone_number %}{{ student.phone_number }}{% endif %}</li>
                     <li class="list-group-item">
                         {{ student.birthday }} {% if student.get_age %}
                         <span class="text-muted">({{ student.get_age }} year)</span>

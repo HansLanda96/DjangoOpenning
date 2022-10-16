@@ -25,6 +25,8 @@ urlpatterns = [
     path('students/', include('students.urls')),
     path('teachers/', include('teachers.urls')),
     path('groups/', include('groups.urls')),
+    path('courses/', include('courses.urls')),  # add courses urls
+    path('__debug__/', include('debug_toolbar.urls')),
 ]
 
 # https://docs.djangoproject.com:8000/en/4.1/topics/http/urls/

@@ -1,52 +1,31 @@
-from datetime import date
+import datetime
 
-from django.core.exceptions import ValidationError
-from django.core.validators import MinLengthValidator
 from django.db import models
-
-from .validators import validate_start_date
 
 
 class Group(models.Model):
-    name = models.CharField(
-        max_length=100,
-        help_text='Create name for group. Example: "Python-12" or "PythonPro-Hillel-Kiseev"',
-        verbose_name='Group Name',
-        db_column='group_name',
-        validators=[MinLengthValidator(10, 'Group name must be at least 10 characters long')],
-        unique=True
+    name = models.CharField(max_length=50)
+    start_date = models.DateField(default=datetime.datetime.utcnow)
+    end_date = models.DateField(null=True, blank=True)
+    headman = models.OneToOneField(
+        'students.Student',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='headman_group'
     )
-    start_date = models.DateField(
-        default=date.today,
-        max_length=10,
-        verbose_name='Group Start Date',
-        db_column='start_date',
-        validators=[validate_start_date]
+    create_datetime = models.DateTimeField(auto_now_add=True)
+    update_datetime = models.DateTimeField(auto_now=True)
+    course = models.OneToOneField(  # add course model to the group
+        'courses.Course',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='course_group'
     )
-    description = models.TextField(
-        default='Group Description',
-        help_text='Enter a group description here.',
-        verbose_name='Group Description',
-        db_column='description'
-    )
-
-    def __str__(self):
-        return f'Group: {self.name}, Start Date: {self.start_date}'
 
     class Meta:
-        db_table = 'group_table'
+        db_table = 'lms_groups_table'
 
-    @classmethod
-    def generate_fake_data(cls, cnt):
-        from faker import Faker
-        f = Faker()
-        for _ in range(cnt):
-            name = f.text(max_nb_chars=20)
-            start_date = f.date_between(start_date='+1d', end_date='+30d')
-            description = f.text(max_nb_chars=120)
-            group = cls(name=name, start_date=start_date, description=description)
-            try:
-                group.full_clean()
-                group.save()
-            except ValidationError:
-                print(f'Error while saving {group}')
+    def __str__(self):
+        return f'Group name: <{self.name}>'

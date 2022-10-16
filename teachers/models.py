@@ -77,7 +77,7 @@ class Teacher(models.Model):
     )
 
     class Meta:
-        db_table = 'teachers_table'
+        db_table = 'lms_teachers_table'
 
     def __str__(self):
         return f'{self.first_name} {self.last_name} {self.specialization}'
@@ -97,7 +97,7 @@ class Teacher(models.Model):
             specialization = f.random.choice(
                 [specialization for _, specializations in cls.FIELD_OF_STUDY_CHOICES
                  for specialization in specializations]
-            )[0].lowercase()
+            )[0]
             teacher = cls(first_name=first_name, last_name=last_name, email=email,
                           birthday=birthday, specialization=specialization)
             try:

@@ -1,33 +1,15 @@
-from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 
-from teachers.forms import CreateTeacherForm, EditTeacherForm
-from teachers.models import Teacher
-
-from webargs.djangoparser import use_args
-from webargs.fields import Str
+from .forms import CreateTeacherForm, EditTeacherForm, TeacherFilterForm
+from .models import Teacher
 
 
-@use_args(
-    {
-        'first_name': Str(required=False),
-        'last_name': Str(required=False),
-        'specialization': Str(required=False),
-    },
-    location='query'
-)
-def get_teachers(request, args):
+def get_teachers(request):
     teachers = Teacher.objects.all()
-
-    if len(args) != 0 and args.get('first_name') or args.get('last_name') or args.get('specialization'):
-        teachers = teachers.filter(
-            Q(first_name=args.get('first_name', '').title()) |
-            Q(last_name=args.get('last_name', '').title()) |
-            Q(specialization=args.get('specialization', '').lower())
-        )
-    return render(request, 'teachers/list.html', {'teachers': teachers})
+    filter_form = TeacherFilterForm(request.GET, queryset=teachers)
+    return render(request, 'teachers/list.html', {'filter_form': filter_form})
 
 
 def create_teacher(request):

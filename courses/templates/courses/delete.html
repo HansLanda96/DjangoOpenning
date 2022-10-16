@@ -10,9 +10,9 @@
         <div class="col">
             <form method="post">
                 {% csrf_token %}
-                <p>Are you really want to delete "{{ teacher.last_name }} {{ teacher.first_name }}" teacher?</p>
+                <p>Are you really want to delete "{{ course.course }} - ({{ course.category }})" Course?</p>
                 <input class="btn btn-outline-success bth-sm mt-2" type="submit" value="Agree">
-                <a class="btn btn-outline-danger bth-sm mt-2" href="{% url 'teachers:list' %}">Cancel</a>
+                <a class="btn btn-outline-danger bth-sm mt-2" href="{% url 'courses:list' %}">Cancel</a>
             </form>
         </div>
         <div class="col-3"></div>

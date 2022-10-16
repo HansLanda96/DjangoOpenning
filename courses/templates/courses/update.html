@@ -2,7 +2,9 @@
 
 {% load crispy_forms_filters %}
 
-{% block title %}Update teacher{% endblock %}
+{% block title %}
+    Update co
+{% endblock %}
 
 {% block content %}
     <div class="row">
@@ -10,9 +12,11 @@
         <div class="col">
             <form method="post">
                 {% csrf_token %}
-                {{ form|crispy }}
-                <input class="btn btn-outline-success bth-sm mt-2" type="submit" value="Update">
-                <a class="btn btn-outline-danger bth-sm mt-2" href="{% url 'teachers:list' %}">Cancel</a>
+                <table>
+                    {{ form|crispy }}
+                </table>
+                <input class="btn btn-outline-primary" type="submit" value="Update">
+                <a class="btn btn-outline-success" href="{% url 'courses:list' %}">Cancel</a>
             </form>
         </div>
         <div class="col-3"></div>
