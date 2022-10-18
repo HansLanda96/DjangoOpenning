@@ -1,10 +1,10 @@
 import datetime
 
+from django.db import models
 from faker import Faker
 
 from core.models import BaseModel
-
-from django.db import models
+from teachers.models import Teacher
 
 
 class Group(BaseModel):
@@ -25,9 +25,15 @@ class Group(BaseModel):
         blank=True,
         related_name='course_group'
     )
+    teachers = models.ManyToManyField(
+        to=Teacher,
+        null=True,
+        blank=True,
+        related_name='groups'
+    )
 
     class Meta:
-        db_table = 'lms_groups_table'
+        db_table = 'lms_groups'
 
     def __str__(self):
         return f'Group name: <{self.name}>'
