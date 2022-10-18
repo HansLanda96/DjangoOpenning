@@ -1,7 +1,5 @@
-from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
-from django.urls import reverse, reverse_lazy
-from django.views.generic import ListView, UpdateView
+from django.urls import reverse_lazy
+from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
 from students.models import Student
 
@@ -9,29 +7,23 @@ from .forms import GroupCreateForm, GroupUpdateForm
 from .models import Group
 
 
-def create_group(request):
-    if request.method == 'POST':
-        form = GroupCreateForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse('groups:list'))
-    form = GroupCreateForm()
-    return render(request, 'groups/create.html', {'form': form})
+class CreateGroupView(CreateView):  # Not working properly yet. Teacher issue. SQL issue.
+    model = Group
+    success_url = reverse_lazy('groups:list')
+    template_name = 'groups/create.html'
+    form_class = GroupCreateForm
 
 
-def delete_group(request, group_id):
-    return HttpResponse('Group delete view.')
+class DeleteGroupView(DeleteView):
+    model = Group
+    template_name = 'groups/delete.html'
+    success_url = reverse_lazy('groups:list')
 
 
-def detail_group(request, group_id):
-    return HttpResponse('Group detail view.')
+class DetailGroupView(DetailView):
+    model = Group
+    template_name = 'groups/detail.html'
 
-
-# optional to use ListView
-# def get_groups(request):
-#     groups = Group.objects.all()
-#     filter_form = GroupFilterForm(request.GET, queryset=groups)
-#     return render(request, 'groups/list.html', {'groups': groups, 'filter_form': filter_form})
 
 class ListGroupView(ListView):
     model = Group
@@ -66,6 +58,22 @@ class UpdateGroupView(UpdateView):
             form.instance.headman = None
         form.save()
         return response
+
+
+# def create_group(request):
+#     if request.method == 'POST':
+#         form = GroupCreateForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             return HttpResponseRedirect(reverse('groups:list'))
+#     form = GroupCreateForm()
+#     return render(request, 'groups/create.html', {'form': form})
+
+# optional to ListView
+# def get_groups(request):
+#     groups = Group.objects.all()
+#     filter_form = GroupFilterForm(request.GET, queryset=groups)
+#     return render(request, 'groups/list.html', {'groups': groups, 'filter_form': filter_form})
 
 
 # Optional update group view. Withot generic classes.
