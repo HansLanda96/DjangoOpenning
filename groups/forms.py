@@ -1,7 +1,5 @@
 from django import forms
 
-from django_filters import FilterSet
-
 from .models import Group
 
 
@@ -32,16 +30,19 @@ class GroupCreateForm(GroupBaseForm):
 
 
 class GroupUpdateForm(GroupBaseForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['headman_field'] = forms.ChoiceField(
+            choices=[
+                (student.pk, f'{student.first_name} {student.last_name}') for student in self.instance.students.all()
+            ],
+            label='Headman',
+            required=False,
+        )
+        self.fields['headman_field'].choices.insert(0, (0, '---------'))
+
     class Meta(GroupBaseForm.Meta):
         exclude = [
             'start_date',
+            'headman',
         ]
-
-
-class GroupFilterForm(FilterSet):
-    class Meta:
-        model = Group
-        fields = {
-            'name': ['icontains'],
-            'course': ['exact'],
-        }

@@ -1,17 +1,12 @@
-from datetime import date
+import random
 
-from core.validators import ValidEmailDomain
 
-from dateutil.relativedelta import relativedelta
+from core.models import PersonaModel
 
-from django.core.exceptions import ValidationError
-from django.core.validators import MinLengthValidator
 from django.db import models
 
-from students.models import VALID_DOMAIN_LIST
 
-
-class Teacher(models.Model):
+class Teacher(PersonaModel):
     FIELD_OF_STUDY_CHOICES = [
         ('Programming', (
             ('front-end', 'Front-End'),
@@ -49,59 +44,26 @@ class Teacher(models.Model):
             ('java-kids', 'Java(Kids)'),
         )),
     ]
-
-    first_name = models.CharField(
-        max_length=100,
-        verbose_name='First Name',
-        db_column='first_name',
-        validators=[MinLengthValidator(2, 'First name must be at least 2 characters long')]
-    )
-    last_name = models.CharField(
-        max_length=100,
-        verbose_name='Last Name',
-        db_column='last_name',
-        validators=[MinLengthValidator(2, 'Last name must be at least 2 characters long')],
-    )
-    birthday = models.DateField(default=date.today, null=True, blank=True)
-    email = models.EmailField(validators=[ValidEmailDomain(*VALID_DOMAIN_LIST)], unique=True)
-    phone_number = models.CharField(
-        max_length=20,
-        verbose_name='Phone Number',
-        db_column='phone_number',
-        blank=True,
-    )
+    salary = models.PositiveIntegerField(default=10_000)
     specialization = models.CharField(
         db_column='specialization',
         max_length=25,
         choices=FIELD_OF_STUDY_CHOICES,
     )
 
-    class Meta:
-        db_table = 'lms_teachers_table'
-
     def __str__(self):
-        return f'{self.first_name} {self.last_name} {self.specialization}'
+        return f'{self.first_name} {self.last_name} {self.specialization} (${self.salary}) - {self.specialization}'
 
-    def get_age(self):
-        return relativedelta(date.today(), self.birthday).years
+    class Meta:
+        db_table = 'lms_teachers'
 
     @classmethod
-    def generate_fake_teachers(cls, cnt):
-        from faker import Faker
-        f = Faker()
-        for _ in range(cnt):
-            first_name = f.first_name()
-            last_name = f.last_name()
-            email = f'{first_name}.{last_name}{f.random.choice(VALID_DOMAIN_LIST)}'
-            birthday = f.date_between(start_date='-50y', end_date='-20y')
-            specialization = f.random.choice(
-                [specialization for _, specializations in cls.FIELD_OF_STUDY_CHOICES
-                 for specialization in specializations]
-            )[0]
-            teacher = cls(first_name=first_name, last_name=last_name, email=email,
-                          birthday=birthday, specialization=specialization)
-            try:
-                teacher.full_clean()
-                teacher.save()
-            except ValidationError:
-                print(f'Error while saving {teacher}')
+    def _generate(cls):
+        obj = super()._generate()
+        spec = random.choice(
+            [specialization for _, specializations in cls.FIELD_OF_STUDY_CHOICES
+             for specialization in specializations]
+        )
+        obj.specialization = spec[0]
+        obj.salary = random.randint(10_000, 100_000)
+        obj.save()
