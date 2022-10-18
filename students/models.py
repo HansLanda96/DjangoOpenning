@@ -1,7 +1,8 @@
-from core.models import PersonaModel
+from random import choice
 
 from django.db import models
 
+from core.models import PersonaModel
 from groups.models import Group
 
 
@@ -20,3 +21,6 @@ class Student(PersonaModel):
     @classmethod
     def _generate(cls):
         obj = super()._generate()
+        groups = Group.objects.all()
+        obj.group = choice(groups)
+        obj.save()
