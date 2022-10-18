@@ -1,13 +1,11 @@
 from datetime import date
 
-from core.validators import ValidEmailDomain
-
 from dateutil.relativedelta import relativedelta
-
 from django.core.validators import MinLengthValidator
 from django.db import models
-
 from faker import Faker
+
+from core.validators import ValidEmailDomain
 
 
 class BaseModel(models.Model):
