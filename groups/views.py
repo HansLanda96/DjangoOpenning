@@ -1,3 +1,4 @@
+from urllib import response
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
@@ -12,6 +13,15 @@ class CreateGroupView(CreateView):  # Not working properly yet. Teacher issue. S
     success_url = reverse_lazy('groups:list')
     template_name = 'groups/create.html'
     form_class = GroupCreateForm
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        group = form.save()
+        students = form.cleaned_data['students']
+        for student in students:
+            student.group = group
+            student.save()
+        return response
 
 
 class DeleteGroupView(DeleteView):
