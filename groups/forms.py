@@ -1,4 +1,7 @@
 from django import forms
+from pkg_resources import require
+
+from students.models import Student
 
 from .models import Group
 
@@ -15,15 +18,13 @@ class GroupBaseForm(forms.ModelForm):
 
 
 class GroupCreateForm(GroupBaseForm):
-    from students.models import Student
-    students = forms.ModelMultipleChoiceField(queryset=Student.objects.select_related('group'), required=False)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
-    def save(self, commit=True):
-        group = super().save(commit)
-        students = self.cleaned_data['students']
-        for student in students:
-            student.group = group
-            student.save()
+    students = forms.ModelMultipleChoiceField(
+        queryset=Student.objects.all(),
+        required=False,
+    )
 
     class Meta(GroupBaseForm.Meta):
         pass
