@@ -1,6 +1,8 @@
-from core.models import PersonaModel
+import random
 
 from django.db import models
+
+from core.models import PersonaModel
 
 
 class Teacher(PersonaModel):
@@ -49,7 +51,18 @@ class Teacher(PersonaModel):
     )
 
     def __str__(self):
-        return f'{self.first_name} {self.last_name} {self.specialization} (${self.salary})'
+        return f'{self.first_name} {self.last_name} {self.specialization} (${self.salary}) - {self.specialization}'
 
     class Meta:
         db_table = 'lms_teachers'
+
+    @classmethod
+    def _generate(cls):
+        obj = super()._generate()
+        spec = random.choice(
+            [specialization for _, specializations in cls.FIELD_OF_STUDY_CHOICES
+             for specialization in specializations]
+        )
+        obj.specialization = spec[0]
+        obj.salary = random.randint(10_000, 100_000)
+        obj.save()
