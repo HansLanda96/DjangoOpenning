@@ -27,6 +27,7 @@ class DetailStudentView(DetailView):
 class ListStudentView(ListView):
     model = Student
     template_name = 'students/list.html'
+    queryset = Student.objects.select_related('group').all()
 
 
 class UpdateStudentView(UpdateView):
