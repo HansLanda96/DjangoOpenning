@@ -52,7 +52,7 @@ class Teacher(PersonaModel):
     )
 
     def __str__(self):
-        return f'{self.first_name} {self.last_name} {self.specialization} (${self.salary}) - {self.specialization}'
+        return f'{self.first_name} {self.last_name} ({self.specialization.title()}) (${self.salary})'
 
     class Meta:
         db_table = 'lms_teachers'

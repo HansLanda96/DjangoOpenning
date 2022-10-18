@@ -5,7 +5,7 @@
 {% block title %}Teachers list{% endblock %}
 
 {% block content %}
-    <div class="row mb-3">
+    {% comment %} <div class="row mb-3">
         <div class="accordion" id="accordionExample">
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingOne">
@@ -28,7 +28,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> {% endcomment %}
     <h1>List of teachers</h1>
     <div class="row mt-3 pt-4">
         <table class="table table-striped table-hover">
@@ -39,18 +39,20 @@
                 <th>Last name</th>
                 <th>Age</th>
                 <th>Specialization</th>
+                <th>Salary($)</th>
                 <th><i class="bi bi-pencil-fill"></i></th>
                 <th><i class="bi bi-trash-fill"></i></th>
             </tr>
             </thead>
             <tbody>
-            {% for teacher in filter_form.qs %}
+            {% for teacher in object_list %}
                 <tr>
                     <td>{{ forloop.counter }}</td>
                     <td><a href="{% url 'teachers:detail' teacher.pk %}">{{ teacher.first_name }}</a></td>
                     <td>{{ teacher.last_name }}</td>
                     <td>{% if teacher.get_age %}{{ teacher.get_age }}{% endif %}</td>
                     <td>{{ teacher.specialization.capitalize }}</td>
+                    <td>{{teacher.salary}}</td>
                     <td><a class="btn btn-outline-primary bth-sm" href="{% url 'teachers:update' teacher.pk %}">Edit</a>
                     </td>
                     <td><a class="btn btn-outline-danger bth-sm"
