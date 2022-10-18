@@ -1,8 +1,9 @@
 import random
 
-from django.db import models
 
 from core.models import PersonaModel
+
+from django.db import models
 
 
 class Teacher(PersonaModel):

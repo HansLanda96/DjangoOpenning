@@ -1,9 +1,12 @@
 import datetime
 
+from core.models import BaseModel
+
 from django.db import models
+
 from faker import Faker
 
-from core.models import BaseModel
+
 from teachers.models import Teacher
 
 

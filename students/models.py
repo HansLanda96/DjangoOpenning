@@ -1,8 +1,9 @@
 from random import choice
 
+from core.models import PersonaModel
+
 from django.db import models
 
-from core.models import PersonaModel
 from groups.models import Group
 
 
