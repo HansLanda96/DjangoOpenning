@@ -8,16 +8,22 @@
         <div class="col">
             <div class="card" style="width: 18rem;">
                 <div class="card-header">
-                    <a href="{%  url 'groups:update' group.pk %}">{{ group.name }}</a>
+                    <a href="{% url 'groups:update' group.pk %}">{{ group.name }}</a>
                 </div>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">{{ group.start_date }}</li>
-                    <li class="list-group-item">{% if group.end_date %}{{ group.end_date }}{% endif %}</li>
-                    <li class="list-group-item">{{ group.description }}</li>
-                    <li class="list-group-item">{% if group.headman %}{{ group.headman.first_name }} {{group.headman.last_name}}{% endif %}</li>
+                    <li class="list-group-item">
+                        {% if group.end_date %}{{ group.end_date }}{% endif %}
+                    </li>
+                    <li class="list-group-item">
+                        {% if group.headman %}
+                            {{ group.headman.first_name }}
+                            {{ group.headman.last_name }}
+                        {% endif %}
+                    </li>
                     <li class="list-group-item">{{ group.course_group }}</li>
                 </ul>
-                <a class="btn btn-outline-primary mt-3" href="{%  url 'groups:list' %}">Back to list</a>
+                <a class="btn btn-outline-primary mt-3" href="{% url 'groups:list' %}">Back to list</a>
             </div>
         </div>
         <div class="col-4"></div>

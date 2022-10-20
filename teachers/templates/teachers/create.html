@@ -11,8 +11,11 @@
             <form method="post">
                 {% csrf_token %}
                 {{ form|crispy }}
-                <input class="btn btn-outline-success bth-sm mt-2" type="submit" value="Create">
-                <a class="btn btn-outline-danger bth-sm mt-2" href="{% url 'teachers:list' %}">Cancel</a>
+                <input class="btn btn-outline-success bth-sm mt-2"
+                       type="submit"
+                       value="Create">
+                <a class="btn btn-outline-danger bth-sm mt-2"
+                   href="{% url 'teachers:list' %}">Cancel</a>
             </form>
         </div>
         <div class="col-3"></div>

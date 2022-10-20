@@ -1,17 +1,18 @@
 {% extends 'base.html' %}
 
-{% block title %}
-    Delete student
-{% endblock %}
+{% block title %}Delete student{% endblock %}
 
 {% block content %}
+
     <div class="row">
         <div class="col-3"></div>
         <div class="col">
             <form method="post">
+
                 {% csrf_token %}
+ 
                 <p>Are you sure you want to delete "{{ student.last_name }} {{ student.first_name }}" student?</p>
-                <input class="btn btn-outline-danger" type="submit" value="Agree">
+                <input class="btn btn-outline-danger" type="submit" value="Agree"/>
                 <a class="btn btn-outline-success" href="{% url 'students:list' %}">Cancel</a>
             </form>
         </div>

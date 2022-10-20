@@ -3,22 +3,30 @@
 {% block title %}Detail of {{ student.first_name }}{% endblock %}
 
 {% block content %}
+
     <div class="row">
         <div class="col-4"></div>
         <div class="col">
-            <div class="card" style="width: 18rem;">
+            <div class="card"style="width: 18rem;">
+ 
                 <div class="card-header">
                     <a href="{% url 'students:update' student.pk %}">{{ student.first_name }} {{ student.last_name }}</a>
                 </div>
+
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">{{ student.email }}</li>
-                    <li class="list-group-item">{% if student.phone_number %}{{ student.phone_number }}{% endif %}</li>
+
                     <li class="list-group-item">
-                        {{ student.birthday }} {% if student.get_age %}
-                        <span class="text-muted">({{ student.get_age }} year)</span>
-                    {% endif %}
+                        {% if student.phone_number %}{{ student.phone_number }}{% endif %}
                     </li>
+
+                    <li class="list-group-item">
+                        {{ student.birthday }}
+                        {% if student.get_age %}<span class="text-muted">({{ student.get_age }} year)</span>{% endif %}
+                    </li>
+ 
                 </ul>
+
                 <a class="btn btn-outline-primary mt-3" href="{% url 'students:list' %}">Back to list</a>
             </div>
         </div>

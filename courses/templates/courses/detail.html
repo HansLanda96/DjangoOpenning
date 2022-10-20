@@ -9,7 +9,8 @@
             <div class="card" style="width: 23rem;">
                 <div class="card-header">
                     <a href="{% url 'courses:update' course.pk %}">
-                        {{ course.course }}{% if course.category %} - {{ course.category }} {% endif %}
+                        {{ course.course }}
+                        {% if course.category %}- {{ course.category }}{% endif %}
                     </a>
                 </div>
                 <ul class="list-group list-group-flush">
