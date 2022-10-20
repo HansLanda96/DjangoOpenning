@@ -1,4 +1,3 @@
-from urllib import response
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
