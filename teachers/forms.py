@@ -11,8 +11,9 @@ class TeacherFilterForm(FilterSet):
     class Meta:
         model = Teacher
         fields = {
-            'first_name': ['exact', 'icontains'],
-            'last_name': ['exact', 'icontains'],
+            'first_name': ['icontains'],
+            'last_name': ['icontains'],
+            'specialization': ['exact'],
         }
 
 

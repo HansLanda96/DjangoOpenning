@@ -1,5 +1,7 @@
 from django import forms
 
+from django_filters import FilterSet
+
 from .models import Group
 
 
@@ -46,3 +48,12 @@ class GroupUpdateForm(GroupBaseForm):
             'start_date',
             'headman',
         ]
+
+
+class GroupFilterForm(FilterSet):
+    class Meta:
+        model = Group
+        fields = {
+            'name': ['icontains'],
+            'start_date': ['exact'],
+        }
