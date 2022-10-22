@@ -1,13 +1,14 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
 from students.models import Student
 
-from .forms import GroupCreateForm, GroupUpdateForm
+from .forms import GroupCreateForm, GroupFilterForm, GroupUpdateForm
 from .models import Group
 
 
-class CreateGroupView(CreateView):  # Not working properly yet. Teacher issue. SQL issue.
+class CreateGroupView(CreateView, LoginRequiredMixin):
     model = Group
     success_url = reverse_lazy('groups:list')
     template_name = 'groups/create.html'
@@ -23,13 +24,13 @@ class CreateGroupView(CreateView):  # Not working properly yet. Teacher issue. S
         return response
 
 
-class DeleteGroupView(DeleteView):
+class DeleteGroupView(DeleteView, LoginRequiredMixin):
     model = Group
     template_name = 'groups/delete.html'
     success_url = reverse_lazy('groups:list')
 
 
-class DetailGroupView(DetailView):
+class DetailGroupView(DetailView, LoginRequiredMixin):
     model = Group
     template_name = 'groups/detail.html'
 
@@ -38,8 +39,13 @@ class ListGroupView(ListView):
     model = Group
     template_name = 'groups/list.html'
 
+    def get_queryset(self):
+        courses = Group.objects.select_related('headman', 'course')
+        filter_form = GroupFilterForm(data=self.request.GET, queryset=courses)
+        return filter_form
 
-class UpdateGroupView(UpdateView):
+
+class UpdateGroupView(UpdateView, LoginRequiredMixin):
     model = Group
     form_class = GroupUpdateForm
     success_url = reverse_lazy('groups:list')
@@ -67,38 +73,3 @@ class UpdateGroupView(UpdateView):
             form.instance.headman = None
         form.save()
         return response
-
-
-# def create_group(request):
-#     if request.method == 'POST':
-#         form = GroupCreateForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             return HttpResponseRedirect(reverse('groups:list'))
-#     form = GroupCreateForm()
-#     return render(request, 'groups/create.html', {'form': form})
-
-# optional to ListView
-# def get_groups(request):
-#     groups = Group.objects.all()
-#     filter_form = GroupFilterForm(request.GET, queryset=groups)
-#     return render(request, 'groups/list.html', {'groups': groups, 'filter_form': filter_form})
-
-
-# Optional update group view. Withot generic classes.
-# def update_group(request, group_id):
-#     group = get_object_or_404(Group, pk=group_id)
-#     if request.method == 'POST':
-#         form = GroupUpdateForm(instance=group, data=request.POST)
-#         if form.is_valid():
-#             form.save()
-#             return HttpResponseRedirect(reverse('groups:list'))
-#     form = GroupUpdateForm(instance=group)
-#     return render(
-#         request,
-#         'groups/update.html',
-#         {
-#             'form': form,
-#             'students': group.students.prefetch_related('headman_group')
-#         }
-#     )

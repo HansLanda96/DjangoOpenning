@@ -30,12 +30,38 @@ class DetailStudentView(DetailView):
 class ListStudentView(ListView):
     model = Student
     template_name = 'students/list.html'
-    # queryset = Student.objects.select_related('group')
 
     def get_queryset(self):
-        students = Student.objects.select_related('group')
-        filter_form = StudentFilterForm(data=self.request.GET, queryset=students)
+        qs_list = Student.objects.select_related('group', 'headman_group')
+        filter_form = StudentFilterForm(data=self.request.GET, queryset=qs_list)
         return filter_form
+
+
+class UpdateStudentView(UpdateView, LoginRequiredMixin):
+    model = Student
+    template_name = 'students/update.html'
+    success_url = reverse_lazy('students:list')
+    form_class = UpdateStudentForm
+
+
+@login_required
+def update_student(request, student_id):
+    if request.method == 'POST':
+        form = CreateStudentForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('students:list'))
+        form = CreateStudentForm()
+        return render(request, 'students/update.html', {'form': form})
+
+
+@login_required
+def delete_student(request, student_id):
+    student = get_object_or_404(Student, pk=student_id)
+    if request.method == 'POST':
+        student.delete()
+        return HttpResponseRedirect(reverse('students:list'))
+    return render(request, 'students/delete.html', {'student': student})
 
 
 @login_required
@@ -53,19 +79,3 @@ def create_student(request):
             return HttpResponseRedirect(reverse('students:list'))
         form = CreateStudentForm()
         return render(request, 'students/create.html', {'form': form})
-
-
-class UpdateStudentView(UpdateView, LoginRequiredMixin):
-    model = Student
-    template_name = 'students/update.html'
-    success_url = reverse_lazy('students:list')
-    form_class = UpdateStudentForm
-
-
-@login_required
-def delete_student(request, student_id):
-    student = get_object_or_404(Student, pk=student_id)
-    if request.method == 'POST':
-        student.delete()
-        return HttpResponseRedirect(reverse('students:list'))
-    return render(request, 'students/delete.html', {'student': student})
