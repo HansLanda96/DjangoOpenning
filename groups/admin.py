@@ -4,6 +4,21 @@ from django.contrib import admin
 from .models import Group
 
 
+class StudetnInlineTable(admin.TabularInline):
+    from students.models import Student
+    model = Student
+    fields = ('first_name', 'last_name')
+    extra = 0
+    readonly_fields = fields
+    show_change_link = True
+
+    def has_delete_permission(self, request, obj=None) -> bool:
+        return False
+
+    def has_add_permission(self, request, obj=None) -> bool:
+        return False
+
+
 class GroupAdmin(admin.ModelAdmin):
     list_display = ('name', 'headman_info', 'course_fix', 'start_date', 'end_date', 'students_count')
     list_display_links = list_display
@@ -35,6 +50,15 @@ class GroupAdmin(admin.ModelAdmin):
         if db_field.name == 'headman':
             kwargs['queryset'] = Group.objects.get(pk=request.resolver_match.kwargs['object_id']).students.all()
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+    def get_form(self, request, obj=None, change=False, **kwargs):
+        form = super().get_form(request, obj, change, **kwargs)
+        form.base_fields['headman'].widget.can_add_related = False
+        form.base_fields['headman'].widget.can_change_related = False
+        form.base_fields['headman'].widget.can_delete_related = False
+        return form
+
+    inlines = [StudetnInlineTable, ]
 
 
 admin.site.register(Group, GroupAdmin)
