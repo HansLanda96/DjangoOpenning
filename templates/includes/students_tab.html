@@ -22,7 +22,13 @@
     <tbody>
         {% for student in objects_list %}
             <tr align="center">
-                <td>{{ forloop.counter }}</td>
+                <td>
+                    {% if is_paginated %}
+                        {{ page_obj.start_index|add:forloop.counter0 }}
+                    {% else %}
+                        {{ forloop.counter }}
+                    {% endif %}
+                </td>
                 <td>
                     {% if user.is_authenticated %}
                         <a href="{% url 'students:detail' student.pk %}">{{ student.first_name }}</a>
