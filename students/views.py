@@ -30,6 +30,7 @@ class DetailStudentView(DetailView):
 class ListStudentView(ListView):
     model = Student
     template_name = 'students/list.html'
+    paginate_by = 10
 
     def get_filter(self):
         students = Student.objects.select_related('group', 'headman_group')
@@ -45,7 +46,7 @@ class ListStudentView(ListView):
         return context
 
 
-class UpdateStudentView(UpdateView, LoginRequiredMixin):
+class UpdateStudentView(LoginRequiredMixin, UpdateView):
     model = Student
     template_name = 'students/update.html'
     success_url = reverse_lazy('students:list')

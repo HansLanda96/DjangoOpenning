@@ -7,20 +7,20 @@ from .forms import CreateTeacherForm, EditTeacherForm, TeacherFilterForm
 from .models import Teacher
 
 
-class CreateTeacherView(CreateView, LoginRequiredMixin):
+class CreateTeacherView(LoginRequiredMixin, CreateView):
     model = Teacher
     template_name = 'teachers/create.html'
     success_url = reverse_lazy('teachers:list')
     form_class = CreateTeacherForm
 
 
-class DeleteTeacherView(DeleteView, LoginRequiredMixin):
+class DeleteTeacherView(LoginRequiredMixin, DeleteView):
     model = Teacher
     template_name = 'teachers/delete.html'
     success_url = reverse_lazy('teachers:list')
 
 
-class DetailTeacherView(DetailView, LoginRequiredMixin):
+class DetailTeacherView(LoginRequiredMixin, DetailView):
     model = Teacher
     template_name = 'teachers/detail.html'
 
@@ -35,7 +35,7 @@ class ListTeacherView(ListView):
         return filter_form
 
 
-class UpdateTeacherView(UpdateView, LoginRequiredMixin):
+class UpdateTeacherView(LoginRequiredMixin, UpdateView):
     model = Teacher
     template_name = 'teachers/update.html'
     success_url = reverse_lazy('teachers:list')

@@ -8,7 +8,7 @@ from .forms import GroupCreateForm, GroupFilterForm, GroupUpdateForm
 from .models import Group
 
 
-class CreateGroupView(CreateView, LoginRequiredMixin):
+class CreateGroupView(LoginRequiredMixin, CreateView):
     model = Group
     success_url = reverse_lazy('groups:list')
     template_name = 'groups/create.html'
@@ -24,13 +24,13 @@ class CreateGroupView(CreateView, LoginRequiredMixin):
         return response
 
 
-class DeleteGroupView(DeleteView, LoginRequiredMixin):
+class DeleteGroupView(LoginRequiredMixin, DeleteView):
     model = Group
     template_name = 'groups/delete.html'
     success_url = reverse_lazy('groups:list')
 
 
-class DetailGroupView(DetailView, LoginRequiredMixin):
+class DetailGroupView(LoginRequiredMixin, DetailView):
     model = Group
     template_name = 'groups/detail.html'
 
@@ -45,7 +45,7 @@ class ListGroupView(ListView):
         return filter_form
 
 
-class UpdateGroupView(UpdateView, LoginRequiredMixin):
+class UpdateGroupView(LoginRequiredMixin, UpdateView):
     model = Group
     form_class = GroupUpdateForm
     success_url = reverse_lazy('groups:list')
